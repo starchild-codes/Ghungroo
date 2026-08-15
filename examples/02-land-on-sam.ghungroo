@@ -1,0 +1,12 @@
+# 2 opening bols + a 5-bol tihai repeated 3 times = 17 events.
+# The final bol therefore returns to matra 1.
+taal teentaal
+laya madhya
+
+tukra { dha ge }
+
+tihai {
+  dha ge na ti na
+}
+
+sam!
