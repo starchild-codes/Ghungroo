@@ -4,11 +4,7 @@ export interface PlaybackHandle {
   stop: () => void
 }
 
-function click(accented: boolean) {
-  const AudioContextCtor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
-  if (!AudioContextCtor) return
-
-  const context = new AudioContextCtor()
+function click(context: AudioContext, accented: boolean) {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
 
@@ -20,7 +16,6 @@ function click(accented: boolean) {
   gain.connect(context.destination)
   oscillator.start()
   oscillator.stop(context.currentTime + 0.07)
-  oscillator.addEventListener('ended', () => context.close())
 }
 
 export function startPlayback(options: {
@@ -34,16 +29,23 @@ export function startPlayback(options: {
   let index = 0
   let timer: number | undefined
   let stopped = false
+  const AudioContextCtor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+  const context = AudioContextCtor ? new AudioContextCtor() : null
+
+  const finish = () => {
+    context?.close()
+    options.onDone()
+  }
 
   const tick = () => {
     if (stopped) return
     if (index >= options.totalEvents) {
-      options.onDone()
+      finish()
       return
     }
 
     options.onBeat(index)
-    click(index % options.taalMatras === 0)
+    if (context) click(context, index % options.taalMatras === 0)
     index += 1
     timer = window.setTimeout(tick, duration)
   }
@@ -54,6 +56,7 @@ export function startPlayback(options: {
     stop: () => {
       stopped = true
       if (timer !== undefined) window.clearTimeout(timer)
+      context?.close()
     },
   }
 }

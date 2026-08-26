@@ -44,6 +44,7 @@ Ghungroo currently supports:
 - `sam!`, which checks final resolution on matra 1
 - horizontal taal visualization with tali/khali/sam markers
 - animated playback using the Web Audio API
+- shareable playground links that encode a composition in the URL (no account or server required)
 - warnings for unfamiliar bols instead of rejecting them
 - deliberately unnecessary error messages
 
@@ -111,6 +112,8 @@ npm run dev
 ```
 
 Then open the local Vite URL shown in your terminal.
+
+Use **Share** to copy a link to the composition currently in the editor. Use `Ctrl`/`⌘` + `Enter` to run while you are composing.
 
 ## Tests
 

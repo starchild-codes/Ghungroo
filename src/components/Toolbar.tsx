@@ -7,7 +7,9 @@ interface ToolbarProps {
   onRun: () => void
   onPlay: () => void
   onStop: () => void
+  onShare: () => void
   canPlay: boolean
+  copied: boolean
 }
 
 export function Toolbar(props: ToolbarProps) {
@@ -29,6 +31,7 @@ export function Toolbar(props: ToolbarProps) {
         <button className="button secondary" onClick={props.onRun}>Run</button>
         <button className="button primary" onClick={props.onPlay} disabled={!props.canPlay}>Play</button>
         <button className="button ghost" onClick={props.onStop}>Stop</button>
+        <button className="button ghost" onClick={props.onShare}>{props.copied ? 'Link copied' : 'Share'}</button>
       </div>
     </div>
   )
